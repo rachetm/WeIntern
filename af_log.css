@@ -1,0 +1,55 @@
+body{
+	background-color:  aliceblue;/*rgb(255, 235, 150);*/
+}
+
+h1{
+	padding-top: 80px; 
+	padding-bottom: 10px;
+	text-align: center;
+	font-size: 50px;
+	font-family: Raleway;
+	letter-spacing: 1px;
+}
+
+hr{
+	border: 1px; 
+	height: 1px; 
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.row{
+	padding: 20px;
+}
+
+.btn{
+	width: 200px;
+}
+
+.allbtn{
+	margin-top: 35px;
+}
+
+
+a, a:active, a:focus {
+	padding-top: 20px;
+	font-family: Raleway;
+	font-weight: 300;
+	text-decoration: underline;
+	outline: none;
+}
+
+.btn-success{
+	border-bottom: 3px solid darkgreen;
+	border-left: 2.5px solid green;
+}
+
+
+.btn-danger{
+	border-bottom: 3px solid darkred;
+	border-left: 2.5px solid darkred;
+}
+
+.btn-primary{
+	border-bottom: 3px solid darkblue;
+	border-left: 2.5px solid darkblue;
+}

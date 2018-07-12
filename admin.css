@@ -1,0 +1,40 @@
+body{
+	background-color: rgb(60,179,113);
+}
+
+hr{
+	border: 1px; 
+	height: 1px; 
+	background-image: linear-gradient(to right, rgba(40, 40, 40, 0), rgba(40, 40, 40, 0.75), rgba(40, 40, 40, 0));
+}
+
+.navbar-toggler:focus, .navbar-toggler:active{
+	outline: none;
+}
+
+.container-fluid{
+	padding: 0px;
+}
+
+.fa{
+	padding-right: 5px;
+}
+
+.tablecon{
+	margin: 0px auto;
+	text-align: center;
+}
+
+.nav-link, .navbar-brand{
+	outline: none;
+}
+
+.btn-cus, .btn-cus:active, .btn-cus:focus{
+	background-color: rgba(0,0,0,0);
+	box-shadow: none;
+}
+
+#msgcon{
+	margin: 100px auto 30px;
+	text-align: center;
+}
