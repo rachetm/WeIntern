@@ -10,15 +10,16 @@
 					<a class="nav-link" href="admin.php"><span class="fa fa-home"></span>Home</a>
 				</li>
 				<li class="nav-item active">
-					<button class="btn btn-cus nav-link" data-toggle="modal" data-target="#adduser"><span class="fa fa-user-plus"></span>Add User</button>
-				</li>
-				<li class="nav-item active">
-					<button class="btn btn-cus nav-link" data-toggle="modal" data-target="#deluser"><span class="fa fa-user-minus"></span>Delete User</button>
+					<button class="btn btn-cus nav-link" data-toggle="modal" data-target="#usercontrol"><span class="fa fa-user"></span>User Control</button>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav">
-				<li class="nav-item active" style="padding-right: 10px;">
+				<li class="nav-item active">
 					<button class="btn btn-cus nav-link" onclick="loadnotifications();" data-toggle="modal" data-target="#notif"><span class="fa fa-bell"></span>Notifications
+					</button>
+				</li>
+				<li class="nav-item active" style="padding-right: 5px;">
+					<button class="btn btn-cus nav-link" onclick="location.href='chgpwd.php'"><span class="fa fa-key"></span>Change Password
 					</button>
 				</li>
 				<hr>
@@ -27,6 +28,116 @@
 		</div>
 	</div>
 </nav>
+
+<!-- User Control Modal -->
+<div class="modal fade" id="usercontrol" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="usercontrol">User Control</h5>
+				<button style="outline:none;" type="button" class="close" data-dismiss="modal">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<ul class="nav nav-fill nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-adduser" role="tab">Add User</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-deluser" role="tab">Delete User</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-userstatus" role="tab">Activate/Deactivate User</a>
+					</li>
+				</ul>
+				<!-- Add User -->
+				<div class="tab-content" id="pills-tabContent">
+					<div class="tab-pane fade show active" id="pills-adduser" role="tabpanel">
+						<form action="register.php" method="post">
+							<div class="form-row form-group">
+								<input type="text" class="form-control field"  placeholder="Name" name="name" required>
+							</div>
+							<div class="form-row form-group">
+								<input type="email" class="form-control field"  placeholder="Email" name="email" required>
+							</div>
+							<div class="form-row form-group">
+								<input type="text" class="form-control field"  placeholder="Username" name="username" required>
+							</div>
+							<div class="form-row form-group">
+								<input type="password" class=" field form-control" placeholder="Password" name="newpassword" required>
+							</div>
+							<div class="form-row form-group">
+								<input type="password" class=" field form-control" placeholder="Confirm Password" name="confirmpassword" required>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+								<input type="submit" class="btn btn-success" value="Confirm">
+							</div>
+						</form>
+					</div>
+					<!-- Delete User -->
+					<div class="tab-pane fade" id="pills-deluser" role="tabpanel">
+						<form action="deregister.php" method="post">
+							<div class="form-row form-group">
+								<label for="userselect">Select User</label>
+								<select class="form-control custom-select" id="userselect" name="username">
+									<?php
+										$stmt = $con->prepare("SELECT * FROM `login` WHERE `username` != 'admin'");
+										$stmt->execute();
+										$result = $stmt->get_result();
+										while($row = $result->fetch_assoc())
+										{
+											echo "<option value='".$row['username']."'>".$row['name']."</option>";
+										}
+									?>
+								</select>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+								<input type="submit" class="btn btn-success" value="Confirm">
+							</div>
+						</form>
+					</div>
+					<!-- Change User Status -->
+					<div class="tab-pane fade" id="pills-userstatus" role="tabpanel">
+						<form action="statuschg.php" method="post">
+							<div class="form-row form-group">
+								<label for="userselect">Select User</label>
+								<select class="form-control custom-select" id="userselect" name="username">
+									<?php
+										$stmt = $con->prepare("SELECT * FROM `login` WHERE `username` != 'admin'");
+										$stmt->execute();
+										$result = $stmt->get_result();
+										while($row = $result->fetch_assoc())
+										{
+											echo "<option value='".$row['username']."'>".$row['name']."</option>";
+										}
+									?>
+								</select>
+							</div>
+								<div class="form-row form-group">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" id="active" name="userstatus" class="custom-control-input" value="1">
+										<label class="custom-control-label" for="active">Activate User</label>
+									</div>
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" id="inactive" name="userstatus" class="custom-control-input" value="0">
+										<label class="custom-control-label" for="inactive">Deactivate User</label>
+									</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+								<input type="submit" class="btn btn-success" value="Confirm">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- Notifications Modal -->
 <div class="modal fade" id="notif" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -36,84 +147,13 @@
 				<button style="outline:none;" type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<ul id="notifications" class="list-group">
-					<!-- Display of notificatins done at the end using Ajax -->
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- Add User Modal -->
-<div class="modal fade" id="adduser" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="adduser">Add User</h5>
-				<button style="outline:none;" type="button" class="close" data-dismiss="modal">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form action="register.php" method="post">
-				<div class="modal-body">
-					<div class="form-row form-group">
-						<input type="text" class="form-control field"  placeholder="Name" name="name" required>
-					</div>
-					<div class="form-row form-group">
-						<input type="email" class="form-control field"  placeholder="Email" name="email" required>
-					</div>
-					<div class="form-row form-group">
-						<input type="text" class="form-control field"  placeholder="Username" name="username" required>
-					</div>
-					<div class="form-row form-group">
-						<input type="password" class=" field form-control" placeholder="Password" name="newpassword" required>
-					</div>
-					<div class="form-row form-group">
-						<input type="password" class=" field form-control" placeholder="Confirm Password" name="confirmpassword" required>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-						<input type="submit" class="btn btn-success" value="Confirm">
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- Delete User Modal -->
-<div class="modal fade" id="deluser" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deluser">Delete User or Make Inactive</h5>
-				<button type="button" class="close" data-dismiss="modal">
-				<span>&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-row form-group">
-					<label for="">Select User</label>
-					<select class="form-control" id="">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-					</select>
-				</div>
-				<div class="form-row form-group">
-					<div class="custom-control custom-radio custom-control-inline">
-						<input type="radio" id="delete" name="delete" class="custom-control-input">
-						<label class="custom-control-label" for="customRadioInline1">Delete User</label>
-					</div>
-					<div class="custom-control custom-radio custom-control-inline">
-						<input type="radio" id="inactive" name="inactive" class="custom-control-input">
-						<label class="custom-control-label" for="customRadioInline2">Make User Inactive</label>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-				<input type="submit" class="btn btn-success" value="Confirm">
+					<table class="table table-bordered table-striped">
+					<!-- <thead class="thead-dark">
+					</thead> -->
+					<tbody id="notifications">
+						<!-- Notifications are displayed here using Ajax below -->
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -133,7 +173,11 @@
 				var i = 0;
 				while(resultvar[i])
 				{
-					resultstring += "<li class='list-group-item'>" + resultvar[i].content + resultvar[i].time + "</li>";
+					if(i%2==0)
+						var color = 'info';
+					else
+						var color = 'default';
+					resultstring += "<tr class='table-" + color + "'><td>" + resultvar[i].content + "<strong>" + resultvar[i].time + "</strong></td></tr>";
 					i++;
 				}
 				document.getElementById('notifications').innerHTML = resultstring;

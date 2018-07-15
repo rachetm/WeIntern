@@ -43,10 +43,11 @@ function checkin($con)
 		$stmt->execute();
 	}
 
-	$stmt = $con->prepare("INSERT INTO `notification`(`time`, `content`) VALUES (?,?)");
-	$stmt->bind_param("ss", $time,$content);
+	$stmt = $con->prepare("INSERT INTO `notification`(`date`,`time`,`content`) VALUES (?,?,?)");
+	$stmt->bind_param("sss",$date,$time,$content);
 	$time = date('H:i:s');
-	$content = $_SESSION['name']." checked in at ";
+	$date = date('Y-m-d');
+	$content = "<strong>".$_SESSION['name']."</strong>"." checked in at ";
 	$stmt->execute();
 }
 
@@ -115,10 +116,11 @@ function checkout($con)
 
 		$stmt->execute();
 	}
-	$stmt = $con->prepare("INSERT INTO `notification`(`time`, `content`) VALUES (?,?)");
-	$stmt->bind_param("ss", $time,$content);
+	$stmt = $con->prepare("INSERT INTO `notification`(`date`,`time`, `content`) VALUES (?,?,?)");
+	$stmt->bind_param("sss",$date,$time,$content);
 	$time = date('H:i:s');
-	$content = $_SESSION['name']." checked out at ";
+	$date = date('Y-m-d');
+	$content = "<strong>".$_SESSION['name']."</strong>"." checked out at ";
 	$stmt->execute();
 }
 

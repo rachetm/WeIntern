@@ -9,13 +9,21 @@
 
 			function display($con)
 			{	
-				$stmt = $con->prepare("SELECT * FROM `login` WHERE `username` != 'admin'");
+				$stmt = $con->prepare("SELECT * FROM `login` WHERE `username` != 'admin'  ORDER BY `login`.`name` ASC"); 
 				$stmt->execute();
 				$result = $stmt->get_result();
 				while($row = $result->fetch_assoc())
 				{
+					if($row['user_status'] == 1)
+						$temp = 'Active';
+					else
+						$temp = 'Inactive';
+
 					echo "<tr> 
-							<td>".$row['name']."</td> <td><a class='btn btn-outline-light' style='text-decoration: none' href='details.php?username=".$row['username']."'>View</a></td> 
+							<td>".$row['name']."</td> 
+							<td><a class='btn btn-outline-light' style='text-decoration: none' href='details.php?username=".$row['username']."'>View</a>
+							</td>
+							<td>".$temp."</td>
 							</tr>";
 				}
 			}
@@ -47,6 +55,7 @@
 					<tr>
 						<th>Name</th>
 						<th>Details</th>
+						<th>Status</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -41,7 +41,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
         Please click on the following link to reset -
 
-        https://weintern.000webhost.com/resetpwd.php?email='.$email.'&hash='.$hash;
+        https://localhost/resetpwd.php?email='.$email.'&hash='.$hash;
 
         if(email_std($to, $subject, $message_body))
         {

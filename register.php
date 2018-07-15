@@ -44,20 +44,20 @@ if (mysqli_num_rows($result) > 0)
     $_SESSION['message'] = "User with this username already exists!";
     $_SESSION['type'] = "danger";
     header("Location: ./admin.php");
-} 
-else 
+}
+else
 {
     // username doesn't already exist in a database, proceed..
     if ($_SERVER['REQUEST_METHOD'] == 'POST') 
     {
         if ($_POST['newpassword'] == $_POST['confirmpassword']) 
         {
-        
-            $stmt = $con->prepare("INSERT INTO `login` VALUES (?, ?, ?, ?, ?,?)");
+            $stmt = $con->prepare("INSERT INTO `login` VALUES (?, ?, ?, ?, ?, ?,1)");
             $stmt->bind_param("sssssi", $username, $name, $email, $password, $hash, $status);
-
+            $username = $_POST['username'];
             $name = $_POST['name'];
             $password = $_POST['newpassword'];
+            $email = $_POST['email'];
             //Use Bycrypt method to one way encrypt the password before storing in database
             $password = password_hash($password, PASSWORD_BCRYPT);
             $hash = password_hash(unique_salt(), PASSWORD_BCRYPT);
@@ -75,11 +75,11 @@ else
                 Please login using the following details and change your password accordingly
 
                 USERNAME:'.$username.'
-                PASSWORD:'.$_POST['newpassword']."
-                Login here : https://weintern.000webhostapp.com";
+                PASSWORD:'.$_POST['newpassword'].'
+                LOGIN HERE: localhost/WeIntern/';
+
                 
                 email_std($to, $subject, $message_body);
-
                 $_SESSION['message'] = "User added successfully";
                 $_SESSION['type'] = "success";
                 header("Location: ./admin.php");

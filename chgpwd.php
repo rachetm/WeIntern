@@ -23,9 +23,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
     {
 		    if ($_POST['newpassword'] == $_POST['confirmpassword']) 
 		    {
-
 		        // We get $_POST['email'] and $_POST['hash'] from the session variables
-
 		        $stmt = $con->prepare("UPDATE `login` SET `password`=? , `hash` = ? WHERE `username`=?");
 		        $stmt->bind_param("sss", $new_password, $new_hash, $_SESSION['username']);
 
